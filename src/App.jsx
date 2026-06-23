@@ -281,6 +281,13 @@ function App() {
   const [openaiApiKey, setOpenaiApiKey] = useState("");
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [codeAnalysis, setCodeAnalysis] = useState(null);
+  const [showCode, setShowCode] = useState(false);
+  const [selectedLanguages, setSelectedLanguages] = useState(["python"]);
+  const [selectedLibraries, setSelectedLibraries] = useState({
+    python: "matplotlib",
+    r: "ggplot2",
+    "vega-lite": "vega-lite",
+  });
 
   // Initialize charts state with initialCharts
   useEffect(() => {
@@ -4468,13 +4475,6 @@ ggplot(df, aes(x = locations, y = microplastics, fill = "Microplastics")) +
   };
 
   const CodeGenerator = () => {
-    const [showCode, setShowCode] = useState(false);
-    const [selectedLanguages, setSelectedLanguages] = useState(["python"]);
-    const [selectedLibraries, setSelectedLibraries] = useState({
-      python: "matplotlib",
-      r: "ggplot2",
-      "vega-lite": "vega-lite",
-    });
 
     const pythonLibraries = [
       { value: "matplotlib", label: "matplotlib" },
