@@ -68,6 +68,194 @@ const zoomOptions = {
   },
 };
 
+const chartPreferences = {
+  1: [
+    "Clear monthly trend visualization",
+    "Interactive zoom functionality",
+    "Detailed tooltips with coral cover data",
+    "Smooth line transitions",
+    "Color scheme representing ocean health",
+  ],
+  2: [
+    "Easy-to-read species distribution",
+    "Interactive bar selection",
+    "Colorful species categorization",
+    "Clear species count display",
+    "Animated bar transitions",
+  ],
+  3: [
+    "Temperature trend visualization",
+    "Impact analysis in tooltips",
+    "Gradient background effect",
+    "Zoom and pan controls",
+    "Clear yearly progression",
+  ],
+  4: [
+    "Comparative current vs target view",
+    "Interactive segment selection",
+    "Clear metric visualization",
+    "Color-coded status indicators",
+    "Detailed gap analysis",
+  ],
+  5: [
+    "Species size vs. abundance",
+    "Distinct color for each species",
+    "Interactive point tooltips",
+    "Highlight outliers",
+    "Zoom and pan scatter area",
+  ],
+  6: [
+    "Clear habitat proportions",
+    "Distinct color for each habitat",
+    "Show percentage labels",
+    "Interactive legend",
+    "Explode largest segment",
+  ],
+  7: [
+    "Zone-based color coding",
+    "Show total protected area",
+    "Interactive legend",
+    "Highlight no-take zones",
+    "Show percentage labels",
+  ],
+  8: [
+    "Bubble size by threat level",
+    "Interactive tooltips",
+    "Highlight endangered species",
+    "Zoom and pan",
+    "Color by species",
+  ],
+  9: [
+    "Horizontal bar orientation",
+    "Color by threat type",
+    "Show impact values",
+    "Highlight top threat",
+    "Interactive legend",
+  ],
+  10: [
+    "Seasonal color palette",
+    "Show abundance values",
+    "Interactive legend",
+    "Highlight peak season",
+    "Polar area animation",
+  ],
+  11: [
+    "Stacked bars by debris type",
+    "Color by plastic type",
+    "Show total debris",
+    "Interactive legend",
+    "Highlight most polluted location",
+  ],
+};
+
+function PreferenceSelector({ chartId, chartLikes, onToggle, selectedCharts, onSelect }) {
+  return (
+    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+      <h4 className="text-sm font-medium text-gray-700 mb-2">
+        What do you like about this chart?
+      </h4>
+      <div className="space-y-2">
+        {chartPreferences[chartId].map((preference) => (
+          <div key={preference} className="flex items-center space-x-2">
+            <button
+              type="button"
+              className={`w-4 h-4 border-2 rounded cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                chartLikes[chartId].includes(preference)
+                  ? "bg-blue-600 border-blue-600"
+                  : "bg-white border-gray-300"
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onToggle(chartId, preference);
+              }}
+            >
+              {chartLikes[chartId].includes(preference) && (
+                <svg
+                  className="w-3 h-3 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+            </button>
+            <span
+              className="text-sm text-gray-600 cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onToggle(chartId, preference);
+              }}
+            >
+              {preference}
+            </span>
+          </div>
+        ))}
+      </div>
+      {chartLikes[chartId].length > 0 && (
+        <div className="mt-3 pt-3 border-t border-gray-200">
+          <p className="text-sm font-medium text-gray-700 mb-2">
+            Your preferences:
+          </p>
+          <ul className="text-sm text-gray-600 space-y-1">
+            {chartLikes[chartId].map((like) => (
+              <li key={like} className="flex items-center">
+                <span className="text-green-500 mr-2">✓</span>
+                {like}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className="mt-4 pt-3 border-t border-gray-200">
+        <div className="flex items-center space-x-2">
+          <div
+            className={`w-4 h-4 border-2 rounded cursor-pointer flex items-center justify-center ${
+              selectedCharts.includes(chartId)
+                ? "bg-blue-600 border-blue-600"
+                : "bg-white border-gray-300"
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onSelect(chartId);
+            }}
+          >
+            {selectedCharts.includes(chartId) && (
+              <svg
+                className="w-3 h-3 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+          </div>
+          <span
+            className="text-sm font-medium text-gray-700 cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onSelect(chartId);
+            }}
+          >
+            Select for remix
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const coralChartRef = useRef(null);
   const speciesChartRef = useRef(null);
@@ -608,194 +796,6 @@ function App() {
     });
   };
 
-  const chartPreferences = {
-    1: [
-      "Clear monthly trend visualization",
-      "Interactive zoom functionality",
-      "Detailed tooltips with coral cover data",
-      "Smooth line transitions",
-      "Color scheme representing ocean health",
-    ],
-    2: [
-      "Easy-to-read species distribution",
-      "Interactive bar selection",
-      "Colorful species categorization",
-      "Clear species count display",
-      "Animated bar transitions",
-    ],
-    3: [
-      "Temperature trend visualization",
-      "Impact analysis in tooltips",
-      "Gradient background effect",
-      "Zoom and pan controls",
-      "Clear yearly progression",
-    ],
-    4: [
-      "Comparative current vs target view",
-      "Interactive segment selection",
-      "Clear metric visualization",
-      "Color-coded status indicators",
-      "Detailed gap analysis",
-    ],
-    5: [
-      "Species size vs. abundance",
-      "Distinct color for each species",
-      "Interactive point tooltips",
-      "Highlight outliers",
-      "Zoom and pan scatter area",
-    ],
-    6: [
-      "Clear habitat proportions",
-      "Distinct color for each habitat",
-      "Show percentage labels",
-      "Interactive legend",
-      "Explode largest segment",
-    ],
-    7: [
-      "Zone-based color coding",
-      "Show total protected area",
-      "Interactive legend",
-      "Highlight no-take zones",
-      "Show percentage labels",
-    ],
-    8: [
-      "Bubble size by threat level",
-      "Interactive tooltips",
-      "Highlight endangered species",
-      "Zoom and pan",
-      "Color by species",
-    ],
-    9: [
-      "Horizontal bar orientation",
-      "Color by threat type",
-      "Show impact values",
-      "Highlight top threat",
-      "Interactive legend",
-    ],
-    10: [
-      "Seasonal color palette",
-      "Show abundance values",
-      "Interactive legend",
-      "Highlight peak season",
-      "Polar area animation",
-    ],
-    11: [
-      "Stacked bars by debris type",
-      "Color by plastic type",
-      "Show total debris",
-      "Interactive legend",
-      "Highlight most polluted location",
-    ],
-  };
-
-  const PreferenceSelector = ({ chartId }) => {
-    // Updated checkbox implementation - working version
-    return (
-      <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-        <h4 className="text-sm font-medium text-gray-700 mb-2">
-          What do you like about this chart?
-        </h4>
-        <div className="space-y-2">
-          {chartPreferences[chartId].map((preference) => (
-            <div key={preference} className="flex items-center space-x-2">
-              <button
-                type="button"
-                className={`w-4 h-4 border-2 rounded cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  chartLikes[chartId].includes(preference)
-                    ? "bg-blue-600 border-blue-600"
-                    : "bg-white border-gray-300"
-                }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleLikeToggle(chartId, preference);
-                }}
-              >
-                {chartLikes[chartId].includes(preference) && (
-                  <svg
-                    className="w-3 h-3 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
-              </button>
-              <span
-                className="text-sm text-gray-600 cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleLikeToggle(chartId, preference);
-                }}
-              >
-                {preference}
-              </span>
-            </div>
-          ))}
-        </div>
-        {chartLikes[chartId].length > 0 && (
-          <div className="mt-3 pt-3 border-t border-gray-200">
-            <p className="text-sm font-medium text-gray-700 mb-2">
-              Your preferences:
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              {chartLikes[chartId].map((like) => (
-                <li key={like} className="flex items-center">
-                  <span className="text-green-500 mr-2">✓</span>
-                  {like}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <div className="mt-4 pt-3 border-t border-gray-200">
-          <div className="flex items-center space-x-2">
-            <div
-              className={`w-4 h-4 border-2 rounded cursor-pointer flex items-center justify-center ${
-                selectedCharts.includes(chartId)
-                  ? "bg-blue-600 border-blue-600"
-                  : "bg-white border-gray-300"
-              }`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleChartSelection(chartId);
-              }}
-            >
-              {selectedCharts.includes(chartId) && (
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              )}
-            </div>
-            <span
-              className="text-sm font-medium text-gray-700 cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleChartSelection(chartId);
-              }}
-            >
-              Select for remix
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   // Add function to get annotation options based on preferences
   const getChartAnnotations = (chartId) => {
@@ -1146,7 +1146,7 @@ function App() {
             zoomLevel={coralZoomLevel}
             setZoomLevel={setCoralZoomLevel}
           />
-          <PreferenceSelector chartId={1} />
+          <PreferenceSelector chartId={1} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1213,7 +1213,7 @@ function App() {
               species
             </div>
           )}
-          <PreferenceSelector chartId={2} />
+          <PreferenceSelector chartId={2} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1277,7 +1277,7 @@ function App() {
             zoomLevel={speciesZoomLevel}
             setZoomLevel={setSpeciesZoomLevel}
           />
-          <PreferenceSelector chartId={3} />
+          <PreferenceSelector chartId={3} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1363,7 +1363,7 @@ function App() {
               %
             </div>
           )}
-          <PreferenceSelector chartId={4} />
+          <PreferenceSelector chartId={4} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1412,7 +1412,7 @@ function App() {
               },
             }}
           />
-          <PreferenceSelector chartId={5} />
+          <PreferenceSelector chartId={5} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1433,7 +1433,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={6} />
+          <PreferenceSelector chartId={6} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1458,7 +1458,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={7} />
+          <PreferenceSelector chartId={7} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1499,7 +1499,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={8} />
+          <PreferenceSelector chartId={8} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1521,7 +1521,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={9} />
+          <PreferenceSelector chartId={9} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1541,7 +1541,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={10} />
+          <PreferenceSelector chartId={10} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1567,7 +1567,7 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={11} />
+          <PreferenceSelector chartId={11} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
