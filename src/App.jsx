@@ -1146,7 +1146,6 @@ function App() {
             zoomLevel={coralZoomLevel}
             setZoomLevel={setCoralZoomLevel}
           />
-          <PreferenceSelector chartId={1} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1213,7 +1212,6 @@ function App() {
               species
             </div>
           )}
-          <PreferenceSelector chartId={2} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1277,7 +1275,6 @@ function App() {
             zoomLevel={speciesZoomLevel}
             setZoomLevel={setSpeciesZoomLevel}
           />
-          <PreferenceSelector chartId={3} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1363,7 +1360,6 @@ function App() {
               %
             </div>
           )}
-          <PreferenceSelector chartId={4} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1412,7 +1408,6 @@ function App() {
               },
             }}
           />
-          <PreferenceSelector chartId={5} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1433,7 +1428,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={6} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1458,7 +1452,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={7} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1499,7 +1492,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={8} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1521,7 +1513,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={9} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1541,7 +1532,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={10} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -1567,7 +1557,6 @@ function App() {
               animation: { duration: 2000, easing: "easeInOutQuart" },
             }}
           />
-          <PreferenceSelector chartId={11} chartLikes={chartLikes} onToggle={handleLikeToggle} selectedCharts={selectedCharts} onSelect={handleChartSelection} />
         </div>
       ),
     },
@@ -6276,6 +6265,13 @@ ggplot(df, aes(x = locations, y = microplastics, fill = "Microplastics")) +
                         </p>
                         <div className="min-h-[20rem] flex flex-col">
                           <div className="flex-grow">{chart.component}</div>
+                          <PreferenceSelector
+                            chartId={chart.id}
+                            chartLikes={chartLikes}
+                            onToggle={handleLikeToggle}
+                            selectedCharts={selectedCharts}
+                            onSelect={handleChartSelection}
+                          />
                         </div>
                       </div>
                     </div>
